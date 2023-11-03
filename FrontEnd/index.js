@@ -14,12 +14,30 @@ function submitForm(){
 		"Authorization":AuthHeaderContent
 	},
 	body:JSON.stringify({
-		title:'Harry',
-		body:'bhai',
+		title:'Login Test',
+		body:'Test:Body',
 		userId:1100		
 	}),	
 	}
-	let p=fetch('http://localhost:8080/',options);
+	fetch(url, options)
+    .then(response => {
+        if (response.ok) {
+            // If the response status is in the 200-299 range, it's a successful response
+            return response.text(); // Parse the JSON response
+        } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    })
+    .then(data => {
+        // Process the parsed JSON data from the response
+        console.log("Response data:", data);
+        // You can do further processing here
+    })
+    .catch(error => {
+        // Handle errors, such as network issues or non-2xx HTTP responses
+        console.error("Error:", error);
+		setTimeout(10000);
+    })
 }
 
 

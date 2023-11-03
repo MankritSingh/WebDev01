@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Validation
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -16,7 +16,8 @@ namespace Validation
             HttpListener listener = new HttpListener();
             listener.Prefixes.Add(url);
             listener.Start();
-
+            //string fileSource = @"C:\Users\QP-202204\Desktop\Mankritold\WebDev01Githubrepo\WebDev01\Validation\db.txt";
+            string fileSource = "db.txt";
             Console.WriteLine("Listening for HTTP POST requests...");
 
             while (true)
@@ -49,8 +50,32 @@ namespace Validation
                     var username = usernamePassword.Substring(0, seperatorIndex);
                     var password = usernamePassword.Substring(seperatorIndex + 1);
 
-                    bool result = IsAuthorized("db.txt", username, password);
-                    Console.WriteLine(result);
+                    //bool result = IsAuthorized(fileSource, username, password);
+                    //Console.WriteLine(result);
+
+
+                    response.AddHeader("Access-Control-Allow-Origin", "*");
+                    response.AddHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+                    response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+                    response.AddHeader("Access-Control-Allow-Credentials", "true");
+                    if (IsAuthorized(fileSource, username, password))
+                    {
+                        string Token = "Trial";
+                        byte[] buffer = Encoding.UTF8.GetBytes(Token);
+
+                        response.StatusCode = (int)HttpStatusCode.OK;
+                        //response.ContentLength64 = buffer.Length;
+
+                        //using (var output = response.OutputStream)
+                        //{
+                        //    output.Write(buffer, 0, buffer.Length);
+                        //}
+                    }
+                    else {
+                        response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    }                   
+                    response.Headers.Add("Content-Type", "application/json");                    
+                    response.Close();
                 }
 
 
