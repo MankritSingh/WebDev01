@@ -17,7 +17,7 @@ namespace Validation
             listener.Prefixes.Add(url);
             listener.Start();
             //string fileSource = @"C:\Users\QP-202204\Desktop\Mankritold\WebDev01Githubrepo\WebDev01\Validation\db.txt";
-            string fileSource = "db.txt";
+            string fileSource = @"..\..\..\..\db.txt";
             Console.WriteLine("Listening for HTTP POST requests...");
 
             while (true)
@@ -60,16 +60,16 @@ namespace Validation
                     response.AddHeader("Access-Control-Allow-Credentials", "true");
                     if (IsAuthorized(fileSource, username, password))
                     {
-                        string Token = "Trial";
-                        byte[] buffer = Encoding.UTF8.GetBytes(Token);
+                        string message = "Successfully Validated";
+                        byte[] buffer = Encoding.UTF8.GetBytes(message);
 
                         response.StatusCode = (int)HttpStatusCode.OK;
-                        //response.ContentLength64 = buffer.Length;
+                        response.ContentLength64 = buffer.Length;
 
-                        //using (var output = response.OutputStream)
-                        //{
-                        //    output.Write(buffer, 0, buffer.Length);
-                        //}
+                        using (var output = response.OutputStream)
+                        {
+                            output.Write(buffer, 0, buffer.Length);
+                        }
                     }
                     else {
                         response.StatusCode = (int)HttpStatusCode.Unauthorized;
@@ -77,39 +77,6 @@ namespace Validation
                     response.Headers.Add("Content-Type", "application/json");                    
                     response.Close();
                 }
-
-
-
-
-                //if (request.HttpMethod == "POST")
-                //{
-                //    using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
-                //    {
-                //        string requestBody = reader.ReadToEnd();
-                //        Console.WriteLine("Received POST data: " + requestBody);
-
-                //        // Extract username and password from the request
-                //        string[] parts = requestBody.Split('&');
-                //        string username = parts[0].Split('=')[1];
-                //        string password = parts[1].Split('=')[1];
-
-                //        // Perform authorization
-                //        if (IsAuthorized("db.txt", username, password))
-                //        {
-                //            byte[] responseBytes = Encoding.UTF8.GetBytes("Authorized");
-                //            response.StatusCode = (int)HttpStatusCode.OK;
-                //            response.OutputStream.Write(responseBytes, 0, responseBytes.Length);
-                //        }
-                //        else
-                //        {
-                //            byte[] responseBytes = Encoding.UTF8.GetBytes("Unauthorized");
-                //            response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                //            response.OutputStream.Write(responseBytes, 0, responseBytes.Length);
-                //        }
-                //    }
-                //}
-
-                //response.Close();
             }
         }
 
