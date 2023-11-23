@@ -1,2 +1,1 @@
-Man:Pass1
-Pan:Pass2
+admin:admin123
