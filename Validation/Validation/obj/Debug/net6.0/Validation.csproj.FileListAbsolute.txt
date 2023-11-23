@@ -13,3 +13,10 @@ C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\
 C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\Validation\obj\Debug\net6.0\Validation.pdb
 C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\Validation\obj\Debug\net6.0\Validation.genruntimeconfig.cache
 C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\Validation\obj\Debug\net6.0\ref\Validation.dll
+C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\Validation\bin\Debug\net6.0\Microsoft.Owin.dll
+C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\Validation\bin\Debug\net6.0\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\Validation\bin\Debug\net6.0\Microsoft.Owin.Security.dll
+C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\Validation\bin\Debug\net6.0\Microsoft.Owin.Security.OAuth.dll
+C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\Validation\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\Validation\bin\Debug\net6.0\Owin.dll
+C:\Users\QP-202204\Desktop\Mankrit old\WebDev01 Github repo\WebDev01\Validation\Validation\obj\Debug\net6.0\Validation.csproj.CopyComplete
