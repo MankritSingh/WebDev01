@@ -71,6 +71,10 @@ namespace JwtAuth.Controllers
             //}
             string token = CreateToken(user);
             user.Token = token;
+
+            var refreshToken = generateRefreshToken();
+            setRefreshToken(refreshToken); //read about http only cookies
+
             return Ok(token);
         }
 
@@ -90,6 +94,52 @@ namespace JwtAuth.Controllers
                 return BadRequest("Cannot Validate the token");
             }
             return Ok("Token validated" + validatedtoken);
+        }
+
+        [HttpPost("Token Refresh")]
+        public async Task<ActionResult<string>> RefreshToken() {
+            var refreshToken = Request.Cookies["refreshToken"];
+            //add validation for match and expiry
+            string token = CreateToken(user);
+            var newRefreshToken= generateRefreshToken();
+            setRefreshToken(newRefreshToken);
+            return Ok(token);
+        }
+        private string CreateToken(User user) {
+            List<Claim> claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name,user.Username)
+            };
+            var cred = new SigningCredentials(SigningKey, SecurityAlgorithms.HmacSha512Signature);
+            var token = new JwtSecurityToken(
+                claims:claims,
+                expires:DateTime.UtcNow.AddSeconds(1),
+                signingCredentials:cred
+                );
+            var jwt=new JwtSecurityTokenHandler().WriteToken(token);
+            return jwt;
+ 
+        }
+
+        private RefreshToken generateRefreshToken() {
+            var refreshToken = new RefreshToken()
+            {
+                Token = Guid.NewGuid().ToString(),
+                Expires = DateTime.UtcNow.AddDays(7),
+                Created = DateTime.Now
+            };
+            return refreshToken;
+        }
+        private void setRefreshToken(RefreshToken refreshToken) {
+            var cookieOption = new CookieOptions()
+            {
+                HttpOnly = true,
+                Expires = refreshToken.Expires
+            };
+            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOption);
+            user.RefreshToken = refreshToken.Token;
+            user.TokenExpires = refreshToken.Expires;
+            user.TokenCreated = refreshToken.Created;
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash,out byte[] passwordSalt) {
@@ -118,21 +168,6 @@ namespace JwtAuth.Controllers
             }
         }
 
-        private string CreateToken(User user) {
-            List<Claim> claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name,user.Username)
-            };
-            var cred = new SigningCredentials(SigningKey, SecurityAlgorithms.HmacSha512Signature);
-            var token = new JwtSecurityToken(
-                claims:claims,
-                expires:DateTime.UtcNow.AddSeconds(1),
-                signingCredentials:cred
-                );
-            var jwt=new JwtSecurityTokenHandler().WriteToken(token);
-            return jwt;
- 
-        }
         private static TokenValidationParameters GetValidationParameters()
         {
             return new TokenValidationParameters()
